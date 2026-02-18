@@ -1,20 +1,50 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function FileViewPage() {
     const params = useParams();
-    const fileId = params.id;
+    const slug = params.id as string;
+    const [file, setFile] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // Mock file data
-    const file = {
-        name: 'project-q4-report.pdf',
-        size: '2.4 MB',
-        type: 'PDF Document',
-        uploadedAt: 'Oct 24, 2023',
-        expiresAt: null, // null means permanent
-        downloads: 128
-    };
+    useEffect(() => {
+        async function fetchFile() {
+            try {
+                const res = await fetch(`/api/files/${slug}`);
+                if (!res.ok) throw new Error('File not found');
+                const data = await res.json();
+                setFile(data);
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchFile();
+    }, [slug]);
+
+    if (loading) {
+        return (
+            <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 120px)' }}>
+                <p>Loading file details...</p>
+            </div>
+        );
+    }
+
+    if (error || !file) {
+        return (
+            <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 120px)' }}>
+                <div className="card" style={{ textAlign: 'center' }}>
+                    <h1 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>404 - File Not Found</h1>
+                    <p className="text-secondary">The link you followed might have expired or is incorrect.</p>
+                    <a href="/" className="btn btn-primary" style={{ marginTop: '1.5rem' }}>Back to Home</a>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 120px)' }}>
@@ -30,12 +60,12 @@ export default function FileViewPage() {
                     fontSize: '2.5rem',
                     margin: '0 auto 1.5rem auto'
                 }}>
-                    📄
+                    {file.type?.startsWith('image/') ? '🖼️' : '📄'}
                 </div>
 
                 <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{file.name}</h1>
                 <p className="text-secondary" style={{ marginBottom: '2rem' }}>
-                    {file.type} • {file.size} • Shared via Filely
+                    {file.size} • Shared via Filely
                 </p>
 
                 <div style={{
@@ -50,19 +80,23 @@ export default function FileViewPage() {
                 }}>
                     <div>
                         <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', fontWeight: 600, display: 'block', textTransform: 'uppercase' }}>Uploaded</span>
-                        <span style={{ fontWeight: 500 }}>{file.uploadedAt}</span>
+                        <span style={{ fontWeight: 500 }}>{new Date(file.uploadedAt).toLocaleDateString()}</span>
                     </div>
                     <div>
                         <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', fontWeight: 600, display: 'block', textTransform: 'uppercase' }}>Status</span>
-                        <span style={{ fontWeight: 500, color: '#16a34a' }}>Permanent</span>
-                    </div>
-                    <div>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', fontWeight: 600, display: 'block', textTransform: 'uppercase' }}>Downloads</span>
-                        <span style={{ fontWeight: 500 }}>{file.downloads}</span>
+                        <span style={{ fontWeight: 500, color: file.expiresAt ? '#d97706' : '#16a34a' }}>
+                            {file.expiresAt ? 'Temporary' : 'Permanent'}
+                        </span>
                     </div>
                     <div>
                         <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', fontWeight: 600, display: 'block', textTransform: 'uppercase' }}>Expiry</span>
-                        <span style={{ fontWeight: 500 }}>Never</span>
+                        <span style={{ fontWeight: 500 }}>
+                            {file.expiresAt ? new Date(file.expiresAt).toLocaleDateString() : 'Never'}
+                        </span>
+                    </div>
+                    <div>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', fontWeight: 600, display: 'block', textTransform: 'uppercase' }}>ID</span>
+                        <span style={{ fontWeight: 500 }}>{file.id}</span>
                     </div>
                 </div>
 
