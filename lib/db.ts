@@ -5,7 +5,8 @@ const DB_PATH = path.join(process.cwd(), 'data', 'db.json');
 
 export type FileRecord = {
     id: string;
-    name: string;
+    originalName: string;
+    storedFileName: string;
     size: string;
     type: string;
     uploadedAt: string;
@@ -16,6 +17,10 @@ export type FileRecord = {
 };
 
 function ensureDb() {
+    const dir = path.dirname(DB_PATH);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
     if (!fs.existsSync(DB_PATH)) {
         fs.writeFileSync(DB_PATH, JSON.stringify({ files: [] }, null, 2));
     }

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { saveFileRecord, FileRecord, findFileBySlug } from './db';
 
-const UPLOADS_DIR = path.join(process.cwd(), 'uploads');
+const UPLOADS_DIR = path.join(process.cwd(), 'public', 'uploads');
 
 export async function processUpload(
     file: File,
@@ -32,7 +32,8 @@ export async function processUpload(
     const now = new Date();
     const record: FileRecord = {
         id,
-        name: file.name,
+        originalName: file.name,
+        storedFileName: fileName,
         size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
         type: file.type,
         uploadedAt: now.toISOString(),
