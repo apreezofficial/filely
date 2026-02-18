@@ -33,7 +33,7 @@ export default function DashboardPage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
                 <div>
                     <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>My Files</h1>
-                    <p className="text-secondary">Manage and share your permanent file URLs.</p>
+                    <p className="text-secondary">Manage and distribute your persistent asset links.</p>
                 </div>
                 <a href="/" className="btn btn-primary">
                     + Upload New File

@@ -43,7 +43,7 @@ export default function SignupPage() {
             <div className="card" style={{ width: '100%', maxWidth: '400px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                     <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Create an account</h1>
-                    <p className="text-secondary">Start storing your files permanently.</p>
+                    <p className="text-secondary">Enable high-performance persistent storage for your assets.</p>
                 </div>
 
                 {error && (
