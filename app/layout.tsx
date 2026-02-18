@@ -5,6 +5,9 @@ import Header from "@/components/Header";
 export const metadata: Metadata = {
   title: "Filely | Easy Cloud Storage",
   description: "Upload your files to the cloud and get a publicly accessible link to share with anyone.",
+  icons: {
+    icon: "/logo.jpg",
+  },
 };
 
 export default function RootLayout({

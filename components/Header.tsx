@@ -38,18 +38,17 @@ export default function Header() {
             padding: '0 2rem'
         }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }} onClick={() => router.push('/')} className="cursor-pointer">
-                <div style={{
-                    width: '32px',
-                    height: '32px',
-                    background: 'var(--primary)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    cursor: 'pointer'
-                }}>F</div>
+                <img
+                    src="/logo.jpg"
+                    alt="Filely Logo"
+                    style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '6px',
+                        objectFit: 'cover',
+                        cursor: 'pointer'
+                    }}
+                />
                 <span style={{ fontWeight: 600, fontSize: '1.125rem', cursor: 'pointer' }}>Filely</span>
             </div>
 
