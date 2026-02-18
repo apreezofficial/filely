@@ -6,14 +6,13 @@ const DB_PATH = path.join(process.cwd(), 'data', 'db.json');
 export type FileRecord = {
     id: string;
     originalName: string;
-    storedFileName: string;
+    fileName: string;
     size: string;
     type: string;
     uploadedAt: string;
     expiresAt: string | null;
     userId: string | null;
     slug: string;
-    localPath: string;
 };
 
 function ensureDb() {

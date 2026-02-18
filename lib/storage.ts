@@ -33,14 +33,13 @@ export async function processUpload(
     const record: FileRecord = {
         id,
         originalName: file.name,
-        storedFileName: fileName,
+        fileName,
         size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
         type: file.type,
         uploadedAt: now.toISOString(),
         expiresAt: isGuest ? new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString() : null,
         userId: isGuest ? null : 'mock-user-123',
         slug,
-        localPath: filePath
     };
 
     saveFileRecord(record);

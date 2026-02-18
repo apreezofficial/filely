@@ -12,12 +12,13 @@ export async function pruneExpiredFiles() {
     const remainingFiles = files.filter(f => !f.expiresAt || new Date(f.expiresAt) > now);
 
     for (const file of expiredFiles) {
-        if (fs.existsSync(file.localPath)) {
+        const filePath = path.join(process.cwd(), 'public', 'uploads', file.fileName);
+        if (fs.existsSync(filePath)) {
             try {
-                fs.unlinkSync(file.localPath);
-                console.log(`Deleted expired file: ${file.storedFileName}`);
+                fs.unlinkSync(filePath);
+                console.log(`Deleted expired file: ${file.fileName}`);
             } catch (err) {
-                console.error(`Failed to delete file: ${file.localPath}`, err);
+                console.error(`Failed to delete file: ${filePath}`, err);
             }
         }
     }

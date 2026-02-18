@@ -21,10 +21,13 @@ export async function GET(
 
     const fileBuffer = fs.readFileSync(filePath);
 
+    // We serve the file with its original content type
+    // and 'inline' disposition so it displays in browser/src tags instead of forcing a download
     return new NextResponse(fileBuffer, {
         headers: {
             'Content-Type': fileRecord.type || 'application/octet-stream',
-            'Content-Disposition': `attachment; filename="${fileRecord.originalName}"`,
+            'Content-Disposition': `inline; filename="${fileRecord.originalName}"`,
+            'Cache-Control': 'public, max-age=31536000, immutable',
         },
     });
 }

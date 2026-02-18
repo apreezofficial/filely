@@ -12,9 +12,6 @@ export async function GET(
         return NextResponse.json({ error: 'File not found' }, { status: 404 });
     }
 
-    // Hide local path for safety and rename storedFileName to fileName
-    const { localPath, storedFileName, ...rest } = file;
-    const safeFile = { ...rest, fileName: storedFileName };
-
-    return NextResponse.json(safeFile);
+    // Return the record as is (localPath is gone from type)
+    return NextResponse.json(file);
 }
