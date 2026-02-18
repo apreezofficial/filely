@@ -228,7 +228,7 @@ export default function Home() {
         <div>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', letterSpacing: '-0.04em' }}>Upload to Filely</h1>
           <p className="text-secondary" style={{ fontSize: '1.125rem' }}>
-            Next-generation infrastructure for high-performance asset delivery.
+            Upload your files to the cloud and get a publicly accessible link instantly.
           </p>
         </div>
 

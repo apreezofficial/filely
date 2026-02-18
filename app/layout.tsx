@@ -3,8 +3,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "Filely | High-Performance Cloud Storage",
-  description: "Secure, persistent cloud storage for your digital assets. Seamless integration via CDN-optimized URLs.",
+  title: "Filely | Easy Cloud Storage",
+  description: "Upload your files to the cloud and get a publicly accessible link to share with anyone.",
 };
 
 export default function RootLayout({
