@@ -1,9 +1,17 @@
 import { NextResponse } from 'next/server';
 import { getFiles } from '@/lib/db';
+import { cookies } from 'next/headers';
 
 export async function GET() {
-    const files = getFiles();
-    // In a real app, we would filter by the current user's ID
-    // For now, we return all files for the demo
-    return NextResponse.json({ files });
+    const cookieStore = await cookies();
+    const userId = cookieStore.get('auth_token')?.value;
+
+    if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const allFiles = getFiles();
+    const userFiles = allFiles.filter(f => f.userId === userId);
+
+    return NextResponse.json({ files: userFiles });
 }

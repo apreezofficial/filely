@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { processUpload } from '@/lib/storage';
+import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
     try {
@@ -12,7 +13,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 });
         }
 
-        const record = await processUpload(file, isGuest, customSlug);
+        // Get user ID from cookie if it exists
+        const cookieStore = await cookies();
+        const userId = cookieStore.get('auth_token')?.value || null;
+
+        const record = await processUpload(file, isGuest, userId, customSlug);
 
         return NextResponse.json({
             ...record,

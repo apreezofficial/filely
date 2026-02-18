@@ -7,6 +7,7 @@ const UPLOADS_DIR = path.join(process.cwd(), 'public', 'uploads');
 export async function processUpload(
     file: File,
     isGuest: boolean,
+    userId: string | null,
     customSlug?: string
 ): Promise<FileRecord> {
     const bytes = await file.arrayBuffer();
@@ -40,7 +41,7 @@ export async function processUpload(
         type: file.type,
         uploadedAt: now.toISOString(),
         expiresAt: isGuest ? new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString() : null,
-        userId: isGuest ? null : 'mock-user-123',
+        userId: userId,
         slug,
     };
 
