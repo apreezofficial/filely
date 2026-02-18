@@ -5,9 +5,9 @@ import { findFileBySlug } from '@/lib/db';
 
 export async function GET(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
-    const slug = params.id;
+    const { id: slug } = await params;
     const fileRecord = findFileBySlug(slug);
 
     if (!fileRecord || !fs.existsSync(fileRecord.localPath)) {
@@ -19,7 +19,7 @@ export async function GET(
     return new NextResponse(fileBuffer, {
         headers: {
             'Content-Type': fileRecord.type || 'application/octet-stream',
-            'Content-Disposition': `attachment; filename="${fileRecord.name}"`,
+            'Content-Disposition': `attachment; filename="${fileRecord.originalName}"`,
         },
     });
 }

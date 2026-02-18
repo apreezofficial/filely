@@ -3,9 +3,9 @@ import { findFileBySlug } from '@/lib/db';
 
 export async function GET(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
-    const slug = params.id;
+    const { id: slug } = await params;
     const file = findFileBySlug(slug);
 
     if (!file) {

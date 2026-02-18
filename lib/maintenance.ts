@@ -15,7 +15,7 @@ export async function pruneExpiredFiles() {
         if (fs.existsSync(file.localPath)) {
             try {
                 fs.unlinkSync(file.localPath);
-                console.log(`Deleted expired file: ${file.name}`);
+                console.log(`Deleted expired file: ${file.storedFileName}`);
             } catch (err) {
                 console.error(`Failed to delete file: ${file.localPath}`, err);
             }
