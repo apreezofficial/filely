@@ -34,7 +34,9 @@ export async function processUpload(
         id,
         originalName: file.name,
         fileName,
-        size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
+        size: file.size < 1024 * 1024
+            ? `${(file.size / 1024).toFixed(2)} KB`
+            : `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
         type: file.type,
         uploadedAt: now.toISOString(),
         expiresAt: isGuest ? new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString() : null,

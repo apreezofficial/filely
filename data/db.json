@@ -1,1 +1,26 @@
-{"files": []}
+{
+  "files": [
+    {
+      "id": "p8378nj",
+      "originalName": "vercel.svg",
+      "fileName": "p8378nj-vercel.svg",
+      "size": "0.00 MB",
+      "type": "image/svg+xml",
+      "uploadedAt": "2026-02-18T18:03:49.280Z",
+      "expiresAt": null,
+      "userId": "mock-user-123",
+      "slug": "wwhxy"
+    },
+    {
+      "id": "bjc6gs0",
+      "originalName": "file.svg",
+      "fileName": "bjc6gs0-file.svg",
+      "size": "0.00 MB",
+      "type": "image/svg+xml",
+      "uploadedAt": "2026-02-18T18:04:17.810Z",
+      "expiresAt": null,
+      "userId": "mock-user-123",
+      "slug": "e82br"
+    }
+  ]
+}

@@ -21,7 +21,10 @@ export default function DashboardPage() {
         fetchFiles();
     }, []);
 
-    const totalSize = files.reduce((acc, f) => acc + parseFloat(f.size), 0);
+    const totalSize = files.reduce((acc, f) => {
+        const value = parseFloat(f.size);
+        return acc + (f.size.includes('KB') ? value / 1024 : value);
+    }, 0);
     const storageLimit = 1024; // 1 GB in MB
     const storagePercent = (totalSize / storageLimit) * 100;
 
