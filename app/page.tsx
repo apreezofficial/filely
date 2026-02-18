@@ -10,8 +10,14 @@ export default function Home() {
   const [slug, setSlug] = useState('');
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [result, setResult] = useState<any>(null);
-  const [isLoggedIn] = useState(false); // Mock login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Check for auth cookie on mount
+    const hasToken = document.cookie.split(';').some((item) => item.trim().startsWith('auth_token='));
+    setIsLoggedIn(hasToken);
+  }, []);
 
   const steps = [
     { id: 0, label: 'Select' },

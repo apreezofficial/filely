@@ -1,8 +1,29 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function LoginPage() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        // Simulate login process
+        setTimeout(() => {
+            // Set mock auth cookie
+            document.cookie = "auth_token=mock_session_token; path=/; max-age=3600";
+
+            // Get redirect target or default to dashboard
+            const redirect = searchParams.get('redirect') || '/dashboard';
+            router.push(redirect);
+            setIsLoading(false);
+        }, 1000);
+    };
+
     return (
         <div style={{
             display: 'flex',
@@ -17,11 +38,12 @@ export default function LoginPage() {
                     <p className="text-secondary">Please enter your details to sign in.</p>
                 </div>
 
-                <form style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Email Address</label>
                         <input
                             type="email"
+                            required
                             placeholder="name@example.com"
                             style={{
                                 width: '100%',
@@ -41,6 +63,7 @@ export default function LoginPage() {
                         </div>
                         <input
                             type="password"
+                            required
                             placeholder="••••••••"
                             style={{
                                 width: '100%',
@@ -53,8 +76,13 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary" style={{ marginTop: '0.5rem' }}>
-                        Sign in
+                    <button
+                        type="submit"
+                        className="btn btn-primary"
+                        style={{ marginTop: '0.5rem' }}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Signing in...' : 'Sign in'}
                     </button>
                 </form>
 
