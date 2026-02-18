@@ -63,7 +63,7 @@ export default function FileViewPage() {
                     {file.type?.startsWith('image/') ? '🖼️' : '📄'}
                 </div>
 
-                <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{file.name}</h1>
+                <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{file.fileName}</h1>
                 <p className="text-secondary" style={{ marginBottom: '2rem' }}>
                     {file.size} • Shared via Filely
                 </p>

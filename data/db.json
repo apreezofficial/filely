@@ -10,6 +10,18 @@
       "userId": "mock-user-123",
       "slug": "ovmum",
       "localPath": "C:\\Users\\hp\\Desktop\\tests\\filely\\public\\uploads\\xjao4a3-window.svg"
+    },
+    {
+      "id": "emczv5n",
+      "originalName": "window.svg",
+      "storedFileName": "emczv5n-window.svg",
+      "size": "0.00 MB",
+      "type": "image/svg+xml",
+      "uploadedAt": "2026-02-18T17:53:28.077Z",
+      "expiresAt": null,
+      "userId": "mock-user-123",
+      "slug": "ntiql",
+      "localPath": "C:\\Users\\hp\\Desktop\\tests\\filely\\public\\uploads\\emczv5n-window.svg"
     }
   ]
 }
