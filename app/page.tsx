@@ -226,7 +226,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div style={{ position: 'relative', width: '240px', height: '140px' }}>
+        <div className="truck-anim" style={{ position: 'relative', width: '240px', height: '140px' }}>
           <svg viewBox="0 0 200 120" style={{ width: '100%', height: '100%' }}>
             <rect x="130" y="60" width="60" height="40" rx="4" fill="var(--primary)" />
             <rect x="175" y="65" width="20" height="25" rx="2" fill="#8ECAE6" opacity="0.6" />

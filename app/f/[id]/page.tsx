@@ -101,9 +101,14 @@ export default function FileViewPage() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                    <button className="btn btn-primary" style={{ flex: 1 }}>
+                    <a
+                        href={`/api/download/${slug}`}
+                        className="btn btn-primary"
+                        style={{ flex: 1, textDecoration: 'none' }}
+                        download
+                    >
                         Download File
-                    </button>
+                    </a>
                     <button className="btn btn-outline" onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
                         alert('Link copied to clipboard!');

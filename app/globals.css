@@ -100,7 +100,9 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 700;
   letter-spacing: -0.025em;
 }
@@ -198,4 +200,32 @@ h1, h2, h3 {
   gap: 0.75rem;
   border: 1px solid rgba(0, 102, 255, 0.1);
   margin-bottom: 1.5rem;
+}
+
+@keyframes truck-move {
+  0% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(-10px);
+  }
+}
+
+.truck-anim {
+  animation: truck-move 3s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
 }
