@@ -6,20 +6,30 @@ import { useRouter } from 'next/navigation';
 export default function SignupPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [formData, setFormData] = useState({ name: '', email: '', password: '' });
 
-    const handleSignup = (e: React.FormEvent) => {
+    const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setError(null);
 
-        // Simulate registration process
-        setTimeout(() => {
-            // Set mock auth cookie
-            document.cookie = "auth_token=mock_session_token; path=/; max-age=3600";
+        try {
+            const res = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
 
-            // Redirect to dashboard
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Signup failed');
+
             router.push('/dashboard');
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
             setIsLoading(false);
-        }, 1500);
+        }
     };
 
     return (
@@ -36,6 +46,20 @@ export default function SignupPage() {
                     <p className="text-secondary">Start storing your files permanently.</p>
                 </div>
 
+                {error && (
+                    <div style={{
+                        padding: '0.75rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        color: '#ef4444',
+                        borderRadius: '8px',
+                        fontSize: '0.875rem',
+                        marginBottom: '1.5rem',
+                        border: '1px solid rgba(239, 68, 68, 0.2)'
+                    }}>
+                        {error}
+                    </div>
+                )}
+
                 <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Full Name</label>
@@ -43,6 +67,8 @@ export default function SignupPage() {
                             type="text"
                             required
                             placeholder="John Doe"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             style={{
                                 width: '100%',
                                 padding: '0.75rem',
@@ -60,6 +86,8 @@ export default function SignupPage() {
                             type="email"
                             required
                             placeholder="name@example.com"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             style={{
                                 width: '100%',
                                 padding: '0.75rem',
@@ -77,6 +105,8 @@ export default function SignupPage() {
                             type="password"
                             required
                             placeholder="••••••••"
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             style={{
                                 width: '100%',
                                 padding: '0.75rem',

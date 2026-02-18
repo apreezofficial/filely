@@ -7,21 +7,31 @@ export default function LoginPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [formData, setFormData] = useState({ email: '', password: '' });
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setError(null);
 
-        // Simulate login process
-        setTimeout(() => {
-            // Set mock auth cookie
-            document.cookie = "auth_token=mock_session_token; path=/; max-age=3600";
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
 
-            // Get redirect target or default to dashboard
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Login failed');
+
             const redirect = searchParams.get('redirect') || '/dashboard';
             router.push(redirect);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
             setIsLoading(false);
-        }, 1000);
+        }
     };
 
     return (
@@ -38,6 +48,20 @@ export default function LoginPage() {
                     <p className="text-secondary">Please enter your details to sign in.</p>
                 </div>
 
+                {error && (
+                    <div style={{
+                        padding: '0.75rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        color: '#ef4444',
+                        borderRadius: '8px',
+                        fontSize: '0.875rem',
+                        marginBottom: '1.5rem',
+                        border: '1px solid rgba(239, 68, 68, 0.2)'
+                    }}>
+                        {error}
+                    </div>
+                )}
+
                 <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Email Address</label>
@@ -45,6 +69,8 @@ export default function LoginPage() {
                             type="email"
                             required
                             placeholder="name@example.com"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             style={{
                                 width: '100%',
                                 padding: '0.75rem',
@@ -65,6 +91,8 @@ export default function LoginPage() {
                             type="password"
                             required
                             placeholder="••••••••"
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             style={{
                                 width: '100%',
                                 padding: '0.75rem',

@@ -67,7 +67,7 @@ export default function DashboardPage() {
                                             <div style={{ width: '32px', height: '32px', background: '#f1f5f9', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.25rem' }}>
                                                 {file.type?.startsWith('image/') ? '🖼️' : '📄'}
                                             </div>
-                                            <span style={{ fontWeight: 500 }}>{file.fileName}</span>
+                                            <span style={{ fontWeight: 500 }}>{file.originalName}</span>
                                         </div>
                                     </td>
                                     <td style={{ padding: '1.25rem 2rem', color: 'var(--secondary)', fontSize: '0.875rem' }}>{file.size}</td>

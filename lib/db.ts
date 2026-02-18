@@ -3,6 +3,14 @@ import path from 'path';
 
 const DB_PATH = path.join(process.cwd(), 'data', 'db.json');
 
+export type User = {
+    id: string;
+    name: string;
+    email: string;
+    password: string; // Plain for demo, but indexed in db
+    createdAt: string;
+};
+
 export type FileRecord = {
     id: string;
     originalName: string;
@@ -21,21 +29,41 @@ function ensureDb() {
         fs.mkdirSync(dir, { recursive: true });
     }
     if (!fs.existsSync(DB_PATH)) {
-        fs.writeFileSync(DB_PATH, JSON.stringify({ files: [] }, null, 2));
+        fs.writeFileSync(DB_PATH, JSON.stringify({ files: [], users: [] }, null, 2));
     }
 }
 
-export function getFiles(): FileRecord[] {
+export function getDb() {
     ensureDb();
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(data).files;
+    return JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+}
+
+export function saveDb(data: any) {
+    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+}
+
+export function getFiles(): FileRecord[] {
+    return getDb().files;
 }
 
 export function saveFileRecord(record: FileRecord) {
-    ensureDb();
-    const db = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+    const db = getDb();
     db.files.push(record);
-    fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
+    saveDb(db);
+}
+
+export function getUsers(): User[] {
+    return getDb().users;
+}
+
+export function saveUser(user: User) {
+    const db = getDb();
+    db.users.push(user);
+    saveDb(db);
+}
+
+export function findUserByEmail(email: string): User | undefined {
+    return getUsers().find(u => u.email === email);
 }
 
 export function findFileBySlug(slug: string): FileRecord | undefined {
