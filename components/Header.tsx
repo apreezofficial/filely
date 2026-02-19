@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import ThemeToggle from './ThemeToggle';
+
 export default function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const router = useRouter();
@@ -44,19 +46,20 @@ export default function Header() {
                     style={{
                         width: '32px',
                         height: '32px',
-                        borderRadius: '6px',
+                        borderRadius: '8px',
                         objectFit: 'cover',
                         cursor: 'pointer'
+                        , border: '1px solid var(--border)'
                     }}
                 />
-                <span style={{ fontWeight: 600, fontSize: '1.125rem', cursor: 'pointer' }}>Filely</span>
+                <span style={{ fontWeight: 700, fontSize: '1.25rem', cursor: 'pointer', letterSpacing: '-0.02em' }}>Filely</span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                 <nav style={{ display: 'flex', gap: '1.5rem' }}>
-                    <a href="/" className="text-secondary" style={{ fontSize: '0.875rem', fontWeight: 500 }}>Upload</a>
+                    <a href="/" className="text-secondary" style={{ fontSize: '0.875rem', fontWeight: 600 }}>Upload</a>
                     {isLoggedIn && (
-                        <a href="/dashboard" className="text-secondary" style={{ fontSize: '0.875rem', fontWeight: 500 }}>Dashboard</a>
+                        <a href="/dashboard" className="text-secondary" style={{ fontSize: '0.875rem', fontWeight: 600 }}>Dashboard</a>
                     )}
                 </nav>
 
@@ -66,15 +69,18 @@ export default function Header() {
                     ) : (
                         <button onClick={logout} className="btn btn-outline" style={{ padding: '0.4rem 1rem', fontSize: '0.875rem' }}>Logout</button>
                     )}
+                    <ThemeToggle />
                     <div style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '10px',
                         border: '1px solid var(--border)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        background: 'var(--panel)',
+                        color: 'var(--foreground)'
                     }}>
                         🔔
                     </div>

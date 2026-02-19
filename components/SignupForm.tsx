@@ -33,29 +33,30 @@ export default function SignupForm() {
     };
 
     return (
-        <div className="card" style={{ width: '100%', maxWidth: '400px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Create an account</h1>
-                <p className="text-secondary">Upload your files to the cloud and get public links.</p>
+        <div className="card" style={{ width: '100%', maxWidth: '440px', padding: '3rem' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                <h1 style={{ fontSize: '2rem', marginBottom: '0.75rem', letterSpacing: '-0.03em' }}>Create an account</h1>
+                <p className="text-secondary" style={{ fontWeight: 500 }}>Upload files safely and manage them with ease.</p>
             </div>
 
             {error && (
                 <div style={{
-                    padding: '0.75rem',
+                    padding: '1rem',
                     background: 'rgba(239, 68, 68, 0.1)',
                     color: '#ef4444',
-                    borderRadius: '8px',
+                    borderRadius: 'var(--radius-md)',
                     fontSize: '0.875rem',
                     marginBottom: '1.5rem',
-                    border: '1px solid rgba(239, 68, 68, 0.2)'
+                    border: '1px solid rgba(239, 68, 68, 0.2)',
+                    fontWeight: 600
                 }}>
                     {error}
                 </div>
             )}
 
-            <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Full Name</label>
+            <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Full Name</label>
                     <input
                         type="text"
                         required
@@ -64,17 +65,20 @@ export default function SignupForm() {
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         style={{
                             width: '100%',
-                            padding: '0.75rem',
-                            borderRadius: '8px',
+                            padding: '0.875rem',
+                            borderRadius: 'var(--radius-sm)',
                             border: '1px solid var(--border)',
                             outline: 'none',
-                            fontSize: '0.9375rem'
+                            fontSize: '0.9375rem',
+                            background: 'var(--panel)',
+                            color: 'var(--foreground)',
+                            transition: 'all 0.2s ease'
                         }}
                     />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Email Address</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Email Address</label>
                     <input
                         type="email"
                         required
@@ -83,17 +87,20 @@ export default function SignupForm() {
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         style={{
                             width: '100%',
-                            padding: '0.75rem',
-                            borderRadius: '8px',
+                            padding: '0.875rem',
+                            borderRadius: 'var(--radius-sm)',
                             border: '1px solid var(--border)',
                             outline: 'none',
-                            fontSize: '0.9375rem'
+                            fontSize: '0.9375rem',
+                            background: 'var(--panel)',
+                            color: 'var(--foreground)',
+                            transition: 'all 0.2s ease'
                         }}
                     />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Password</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                    <label style={{ fontSize: '0.875rem', fontWeight: 600 }}>Password</label>
                     <input
                         type="password"
                         required
@@ -102,11 +109,14 @@ export default function SignupForm() {
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         style={{
                             width: '100%',
-                            padding: '0.75rem',
-                            borderRadius: '8px',
+                            padding: '0.875rem',
+                            borderRadius: 'var(--radius-sm)',
                             border: '1px solid var(--border)',
                             outline: 'none',
-                            fontSize: '0.9375rem'
+                            fontSize: '0.9375rem',
+                            background: 'var(--panel)',
+                            color: 'var(--foreground)',
+                            transition: 'all 0.2s ease'
                         }}
                     />
                 </div>
@@ -114,16 +124,16 @@ export default function SignupForm() {
                 <button
                     type="submit"
                     className="btn btn-primary"
-                    style={{ marginTop: '0.5rem' }}
+                    style={{ marginTop: '0.5rem', padding: '1rem' }}
                     disabled={isLoading}
                 >
                     {isLoading ? 'Creating account...' : 'Create account'}
                 </button>
             </form>
 
-            <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem' }}>
-                <span className="text-secondary">Already have an account? </span>
-                <a href="/auth/login" style={{ color: 'var(--primary)', fontWeight: 500 }}>Sign in</a>
+            <div style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.9375rem' }}>
+                <span className="text-secondary" style={{ fontWeight: 500 }}>Already have an account? </span>
+                <a href="/auth/login" style={{ color: 'var(--primary)', fontWeight: 700 }}>Sign in</a>
             </div>
         </div>
     );

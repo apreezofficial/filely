@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Filely | Easy Cloud Storage",
@@ -16,12 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <Header />
-        <main style={{ minHeight: 'calc(100vh - 64px)' }}>
-          {children}
-        </main>
+        <ThemeProvider>
+          <Header />
+          <main style={{ minHeight: 'calc(100vh - 64px)' }}>
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

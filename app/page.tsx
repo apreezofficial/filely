@@ -105,8 +105,8 @@ export default function Home() {
                 <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
             </div>
-            <p style={{ marginBottom: '1rem', fontWeight: 500 }}>Select a file to begin</p>
-            <button className="btn btn-outline" style={{ background: 'white' }}>Choose File</button>
+            <p style={{ marginBottom: '1.25rem', fontWeight: 600, fontSize: '1.125rem' }}>Select a file to begin</p>
+            <button className="btn btn-outline" style={{ background: 'var(--panel)', border: '1px solid var(--border)' }}>Choose File</button>
           </div>
         );
 
@@ -131,14 +131,14 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <h3 style={{ marginBottom: '1.5rem' }}>File Details</h3>
-              <div style={{ background: 'var(--background)', padding: '1.5rem', borderRadius: '12px' }}>
+              <div style={{ background: 'var(--background)', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
                 {previewUrl ? (
-                  <img src={previewUrl} alt="Preview" style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '8px', marginBottom: '1rem' }} />
+                  <img src={previewUrl} alt="Preview" style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '120px', background: 'rgba(0,0,0,0.05)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', marginBottom: '1rem' }}>📄</div>
+                  <div style={{ width: '100%', height: '140px', background: 'var(--panel)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3.5rem', marginBottom: '1.25rem', border: '1px solid var(--border)' }}>📄</div>
                 )}
-                <p style={{ fontWeight: 600, marginBottom: '0.25rem' }}>{file?.name}</p>
-                <p className="text-secondary" style={{ fontSize: '0.875rem' }}>{(file!.size / (1024 * 1024)).toFixed(2)} MB • {file?.type || 'Unknown type'}</p>
+                <p style={{ fontWeight: 700, marginBottom: '0.35rem', fontSize: '1.125rem' }}>{file?.name}</p>
+                <p className="text-secondary" style={{ fontSize: '0.875rem', fontWeight: 500 }}>{(file!.size / (1024 * 1024)).toFixed(2)} MB • {file?.type || 'Unknown type'}</p>
               </div>
             </div>
             <div>
@@ -156,13 +156,16 @@ export default function Home() {
                       value={slug}
                       onChange={(e) => checkSlug(e.target.value)}
                       style={{
-                        width: '100%', padding: '0.75rem', borderRadius: '8px',
+                        width: '100%', padding: '0.875rem', borderRadius: 'var(--radius-sm)',
                         border: '1px solid var(--border)', outline: 'none',
+                        background: 'var(--panel)',
+                        color: 'var(--foreground)',
+                        transition: 'all 0.2s ease',
                         borderColor: slugAvailable === true ? '#22c55e' : slugAvailable === false ? '#ef4444' : 'var(--border)'
                       }}
                     />
-                    {slugAvailable === false && <p style={{ color: '#ef4444', fontSize: '0.75rem', marginTop: '0.25rem' }}>Already taken</p>}
-                    {!isLoggedIn && <p className="text-secondary" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Login to use custom slugs</p>}
+                    {slugAvailable === false && <p style={{ color: '#ef4444', fontSize: '0.75rem', marginTop: '0.35rem', fontWeight: 600 }}>Already taken</p>}
+                    {!isLoggedIn && <p className="text-secondary" style={{ fontSize: '0.75rem', marginTop: '0.35rem', fontWeight: 500 }}>Login to use custom slugs</p>}
                   </div>
                 </div>
                 <button className="btn btn-primary" onClick={handleUpload}>Next Step</button>
@@ -204,9 +207,9 @@ export default function Home() {
             <h2 style={{ marginBottom: '0.5rem' }}>Deployment Successful!</h2>
             <p className="text-secondary" style={{ marginBottom: '2rem' }}>Your file is now live and ready to shared with the world.</p>
 
-            <div style={{ background: 'var(--background)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', marginBottom: '2rem' }}>
-              <code style={{ flex: 1, textAlign: 'left', fontWeight: 600 }}>{result?.url}</code>
-              <button className="btn btn-primary" style={{ padding: '0.5rem 1rem' }} onClick={() => {
+            <div style={{ background: 'var(--panel)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', marginBottom: '2.5rem', boxShadow: 'var(--shadow)' }}>
+              <code style={{ flex: 1, textAlign: 'left', fontWeight: 700, color: 'var(--primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginRight: '1rem' }}>{result?.url}</code>
+              <button className="btn btn-primary" style={{ padding: '0.6rem 1.25rem' }} onClick={() => {
                 navigator.clipboard.writeText(result?.url);
                 alert('Copied!');
               }}>Copy Link</button>
@@ -223,17 +226,19 @@ export default function Home() {
   };
 
   return (
-    <div className="container" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3rem' }}>
-        <div>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', letterSpacing: '-0.04em' }}>Upload to Filely</h1>
-          <p className="text-secondary" style={{ fontSize: '1.125rem' }}>
-            Upload your files to the cloud and get a publicly accessible link instantly.
+    <div className="container" style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4rem', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: 1, minWidth: '300px' }}>
+          <h1 style={{ fontSize: '3.5rem', marginBottom: '1.25rem', letterSpacing: '-0.05em', background: 'linear-gradient(to right, var(--foreground), var(--primary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            Upload to Filely
+          </h1>
+          <p className="text-secondary" style={{ fontSize: '1.25rem', maxWidth: '500px', fontWeight: 500 }}>
+            The most secure and elegant way to share your files with the world. Instant, permanent, and beautiful.
           </p>
         </div>
 
-        <div className="truck-anim" style={{ position: 'relative', width: '240px', height: '140px' }}>
-          <svg viewBox="0 0 200 120" style={{ width: '100%', height: '100%' }}>
+        <div className="truck-anim" style={{ position: 'relative', width: '280px', height: '160px', borderRadius: '20px', background: 'var(--panel)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)' }}>
+          <svg viewBox="0 0 200 120" style={{ width: '80%', height: '80%' }}>
             <rect x="130" y="60" width="60" height="40" rx="4" fill="var(--primary)" />
             <rect x="175" y="65" width="20" height="25" rx="2" fill="#8ECAE6" opacity="0.6" />
             <rect x="100" y="70" width="40" height="30" fill="var(--primary)" opacity="0.8" />
@@ -246,8 +251,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="card" style={{ padding: '3rem' }}>
-        <div className="stepper" style={{ marginBottom: '4rem' }}>
+      <div className="card">
+        <div className="stepper">
           {steps.map((step) => (
             <div key={step.id} className={`step ${activeStep === step.id ? 'active' : ''} ${activeStep > step.id ? 'completed' : ''}`}>
               <div className="step-indicator">
@@ -258,7 +263,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div>
+        <div style={{ marginTop: '2rem' }}>
           {renderStepContent()}
         </div>
       </div>
