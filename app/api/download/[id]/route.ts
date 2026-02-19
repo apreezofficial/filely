@@ -1,0 +1,30 @@
+import fs from 'fs';
+import path from 'path';
+import { NextResponse } from 'next/server';
+import { findFileBySlug } from '@/lib/db';
+
+export async function GET(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const { id: slug } = await params;
+    const fileRecord = findFileBySlug(slug);
+    if (!fileRecord) {
+        return new NextResponse('File not found', { status: 404 });
+    }
+
+    const filePath = path.join(process.cwd(), 'public', 'uploads', fileRecord.fileName);
+
+    if (!fs.existsSync(filePath)) {
+        return new NextResponse('File not found', { status: 404 });
+    }
+
+    const fileBuffer = fs.readFileSync(filePath);
+
+    return new NextResponse(fileBuffer, {
+        headers: {
+            'Content-Type': fileRecord.type || 'application/octet-stream',
+            'Content-Disposition': `attachment; filename="${fileRecord.originalName}"`,
+        },
+    });
+}
