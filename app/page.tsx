@@ -7,6 +7,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [slug, setSlug] = useState('');
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [result, setResult] = useState<any>(null);
@@ -67,23 +68,53 @@ export default function Home() {
   };
 
   const confirmUpload = async () => {
+    if (!file) return;
     setIsUploading(true);
-    const formData = new FormData();
-    formData.append('file', file!);
-    formData.append('isGuest', String(!isLoggedIn));
-    if (isLoggedIn && slug) {
-      formData.append('customSlug', slug);
-    }
+
+    const CHUNK_SIZE = 800 * 1024; // 800KB chunks to stay safely under 1MB Nginx limit
+    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+    const uploadId = Math.random().toString(36).substring(2, 15);
 
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      if (data.error) throw new Error(data.error);
-      setResult(data);
-      setActiveStep(4); // Move to Share
+      let finalResult = null;
+
+      for (let i = 0; i < totalChunks; i++) {
+        const start = i * CHUNK_SIZE;
+        const end = Math.min(file.size, start + CHUNK_SIZE);
+        const chunk = file.slice(start, end);
+
+        const formData = new FormData();
+        formData.append('chunk', chunk);
+        formData.append('uploadId', uploadId);
+        formData.append('chunkIndex', String(i));
+        formData.append('totalChunks', String(totalChunks));
+        formData.append('fileName', file.name);
+        formData.append('totalSize', String(file.size));
+        formData.append('fileType', file.type || 'application/octet-stream');
+        formData.append('isGuest', String(!isLoggedIn));
+        if (isLoggedIn && slug) {
+          formData.append('customSlug', slug);
+        }
+
+        const response = await fetch('/api/upload/chunk', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+
+        setUploadProgress(Math.round(((i + 1) / totalChunks) * 100));
+
+        if (data.finalized) {
+          finalResult = data;
+        }
+      }
+
+      if (finalResult) {
+        setResult(finalResult);
+        setActiveStep(4); // Move to Share
+      }
     } catch (error: any) {
       alert(error.message || 'Upload failed');
       setActiveStep(2);
@@ -193,8 +224,13 @@ export default function Home() {
                 onClick={confirmUpload}
                 disabled={isUploading}
               >
-                {isUploading ? 'Uploading...' : 'Confirm & Upload'}
+                {isUploading ? `Uploading ${uploadProgress}%...` : 'Confirm & Upload'}
               </button>
+              {isUploading && (
+                <div style={{ height: '4px', background: 'var(--border)', borderRadius: '2px', marginTop: '1rem', overflow: 'hidden' }}>
+                  <div style={{ width: `${uploadProgress}%`, height: '100%', background: 'var(--primary)', transition: 'width 0.3s ease' }}></div>
+                </div>
+              )}
               <button className="btn btn-outline" style={{ width: '100%', marginTop: '0.75rem' }} onClick={() => setActiveStep(2)}>Back</button>
             </div>
           </div>
