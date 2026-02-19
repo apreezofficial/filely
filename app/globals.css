@@ -327,3 +327,59 @@ h4 {
 .cursor-pointer {
   cursor: pointer;
 }
+
+/* Slider/Swipe Styles */
+.step-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.step-slider {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
+
+.step-content {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  h1 {
+    font-size: 2.25rem !important;
+  }
+
+  .step-label {
+    display: none;
+  }
+
+  .stepper {
+    margin-bottom: 2rem;
+  }
+
+  .stepper::before {
+    left: 15%;
+    right: 15%;
+  }
+
+  .truck-anim {
+    display: none;
+  }
+
+  .step-indicator {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+}
