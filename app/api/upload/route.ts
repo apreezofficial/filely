@@ -13,6 +13,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 });
         }
 
+        // Limit check in code just in case (e.g. 50MB)
+        if (file.size > 50 * 1024 * 1024) {
+            return NextResponse.json({ error: 'File size exceeds 50MB limit' }, { status: 400 });
+        }
+
         // Get user ID from cookie if it exists
         const cookieStore = await cookies();
         const userId = cookieStore.get('auth_token')?.value || null;
